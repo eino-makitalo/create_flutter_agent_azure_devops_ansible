@@ -1,0 +1,4 @@
+all:
+  buildservers:
+    macstadium01:
+

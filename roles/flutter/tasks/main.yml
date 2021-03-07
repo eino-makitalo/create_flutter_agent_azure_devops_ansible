@@ -1,0 +1,38 @@
+---
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /Users/{{ansible_user}}/development
+    state: directory
+    mode: '0755'
+
+- name: flutteristhere
+  stat:
+    path: /Users/{{ansible_user}}/development/flutter/bin/flutter
+  register: flutterstat
+
+- name: download Flutter for mac
+  shell: |
+    cd ~/development
+    curl https://storage.googleapis.com/flutter_infra/releases/stable/macos/flutter_macos_2.0.1-stable.zip --output flutter.zip
+    unzip flutter.zip
+  when: flutterstat.stat.exists == false
+
+- name: does it exists .zshrc
+  stat:
+    path: /Users/{{ansible_user}}/.zshrc
+  register: zshrcexists
+
+- name: ensure that .zshrc exists
+  ansible.builtin.file:
+    path: /Users/{{ansible_user}}/.zshrc
+    state: touch
+    mode: '0755'
+  when: zshrcexists.stat.exists == false
+
+- name: Add to .zsh path
+  blockinfile:
+    path: /Users/{{ansible_user}}/.zshrc
+    block: |
+      export PATH="$PATH:/Users/{{ansible_user}}/development/flutter/bin"      
+

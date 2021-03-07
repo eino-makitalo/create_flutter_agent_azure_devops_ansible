@@ -1,0 +1,10 @@
+---
+
+buildservers:
+  hosts:
+    macstadium01:
+      ansible_host: 208.83.1.7
+  vars:
+    ansible_user: administrator
+    ansible_python_interpreter: /usr/bin/python3
+

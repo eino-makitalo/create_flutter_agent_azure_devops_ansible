@@ -1,0 +1,6 @@
+# file: webservers.yml
+- name: install dev tools
+  hosts: buildservers
+  roles:
+    - devstuff
+    

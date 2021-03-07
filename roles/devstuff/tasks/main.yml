@@ -1,0 +1,17 @@
+---
+
+- name: brewinstalled
+  stat:
+    path: /usr/local/bin/brew 
+  register: brewstat
+
+- name: ensure homebrew is installed
+  shell: |
+    NONINTERACTIVE=1; export NONINTERACTIVE
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  when: brewstat.stat.exists == false
+
+- community.general.homebrew:
+    name: python3
+    state: present
+    update_homebrew: no
